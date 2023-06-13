@@ -2,7 +2,7 @@ import kawa
 
 
 def test_plaintext():
-    response = kawa.request("GET", "127.0.0.1", 8080, "/")
+    response = kawa.request("GET", "http://localhost:8080")
     assert response.body == "hello world"
 
 def test_json():
@@ -14,9 +14,7 @@ def test_json():
     }
     response = kawa.request(
         "POST",
-        "127.0.0.1",
-        8080,
-        "/data",
+        "http://127.0.0.1:8080/data",
         headers={"Content-Type": "application/json"},
         body=json.dumps(payload)
     )

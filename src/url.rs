@@ -1,11 +1,18 @@
 use pyo3::prelude::*;
 
 #[pyclass]
+#[derive(Clone)]
 pub struct Url {
     host: String,
     port: usize,
     scheme: String,
-    path: String
+    pub path: String
+}
+
+impl Url {
+    pub fn address(&self) -> String {
+        format!("{}:{}", self.host, self.port)
+    }
 }
 
 #[pymethods]

@@ -11,16 +11,15 @@ pub const CRLF: &str = "\r\n";
 
 /// Send an HTTP request
 #[pyfunction(name = "request")]
-#[pyo3(signature = (method, host, port, path, headers=None, body=None))]
+#[pyo3(signature = (method, url, headers=None, body=None))]
 fn request_helper(
     method: String,
-    host: String,
-    port: usize,
-    path: String,
+    url: String,
     headers: Option<HashMap<String, String>>,
     body: Option<String>,
 ) -> PyResult<response::Response> {
-    let mut req = request::Request::new(method, host, port, path);
+    let url = url::Url::parse(url)?;
+    let mut req = request::Request::new(method, url);
 
     if let Some(body) = body {
         req.set_body(body);
