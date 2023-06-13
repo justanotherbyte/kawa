@@ -1,5 +1,6 @@
 mod request;
 mod response;
+mod url;
 
 use std::collections::HashMap;
 
@@ -20,7 +21,7 @@ fn request_helper(
     body: Option<String>,
 ) -> PyResult<response::Response> {
     let mut req = request::Request::new(method, host, port, path);
-    
+
     if let Some(body) = body {
         req.set_body(body);
     }
@@ -40,5 +41,6 @@ fn kawa(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(request_helper, m)?)?;
     m.add_class::<request::Request>()?;
     m.add_class::<response::Response>()?;
+    m.add_class::<url::Url>()?;
     Ok(())
 }
