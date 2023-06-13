@@ -1,15 +1,20 @@
-use std::{collections::HashMap, net::{TcpStream, Shutdown}, io::{Write, Read}};
+use std::{
+    collections::HashMap,
+    io::{Read, Write},
+    net::{Shutdown, TcpStream},
+};
 
 use pyo3::prelude::*;
 
-use crate::{VERSION, CRLF, response::Response};
+use crate::{response::Response, CRLF, VERSION};
 
 #[pyclass]
 pub struct Request {
     headers: HashMap<String, String>,
     address: String,
     method: String,
-    path: String
+    path: String,
+    body: Option<String>,
 }
 
 #[pymethods]
@@ -27,11 +32,18 @@ impl Request {
             method,
             path,
             headers: HashMap::from(default_headers),
+            body: None,
         }
     }
 
     pub fn add_header(&mut self, header: String, value: String) {
         self.headers.insert(header, value);
+    }
+
+    pub fn set_body(&mut self, body: String) {
+        let length = body.len();
+        self.body = Some(body);
+        self.add_header("Content-Length".into(), length.to_string());
     }
 
     fn create_message(&self) -> Vec<u8> {
@@ -41,6 +53,11 @@ impl Request {
             message.push_str(&value);
         }
         message.push_str(CRLF);
+
+        if let Some(body) = &self.body {
+            message.push_str(body);
+        }
+
         let bytes = message.as_bytes();
         bytes.to_owned()
     }

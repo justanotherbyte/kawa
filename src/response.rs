@@ -8,7 +8,7 @@ use crate::CRLF;
 pub struct Response {
     status: usize,
     headers: HashMap<String, String>,
-    body: String
+    body: String,
 }
 
 impl Response {
@@ -46,7 +46,7 @@ impl Response {
         let resp = Self {
             status: status_code_parsed,
             headers,
-            body
+            body,
         };
         Ok(resp)
     }

@@ -9,15 +9,12 @@ from litestar import (
 async def hello() -> str:
     return "hello world"
 
-@get("/data")
-async def data() -> dict:
-    return {
-        "username": "justanotherbyte",
-        "password": "http"
-    }
+@post("/data")
+async def echo_data(data: dict[str, str]) -> dict:
+    return data
 
 @post("/create")
 async def create() -> str:
     return "created"
 
-app = Litestar([create, data, hello])
+app = Litestar([create, echo_data, hello])
