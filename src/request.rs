@@ -1,10 +1,8 @@
-use std::{collections::HashMap, net::TcpStream, io::Write};
+use std::{collections::HashMap, net::{TcpStream, Shutdown}, io::{Write, Read}};
 
 use pyo3::prelude::*;
 
-use crate::VERSION;
-
-const CRLF: &str = "\r\n";
+use crate::{VERSION, CRLF, response::Response};
 
 #[pyclass]
 pub struct Request {
@@ -13,6 +11,7 @@ pub struct Request {
     method: String,
     path: String
 }
+
 #[pymethods]
 impl Request {
     #[new]
@@ -21,7 +20,7 @@ impl Request {
         let default_headers = [
             ("User-Agent".into(), format!("kawa/{VERSION}")),
             ("Host".into(), address.clone()),
-            ("Connection".into(), "keep-alive".into()),
+            ("Connection".into(), "close".into()),
         ];
         Self {
             address,
@@ -46,11 +45,20 @@ impl Request {
         bytes.to_owned()
     }
 
-    pub fn send(&self) -> PyResult<()> {
+    pub fn send(&self) -> PyResult<Response> {
         let mut stream = TcpStream::connect(&self.address)?;
+
         let data = self.create_message();
         stream.write_all(&data)?;
 
-        Ok(())
+        stream.flush()?;
+
+        let mut buf = String::new();
+        stream.read_to_string(&mut buf)?;
+
+        stream.shutdown(Shutdown::Both).ok();
+
+        let response = Response::parse_response(buf)?;
+        Ok(response)
     }
 }
