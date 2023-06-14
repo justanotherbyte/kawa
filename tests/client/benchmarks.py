@@ -93,4 +93,4 @@ def make_chart(
     plt.title(f"{name} - {benchmark_type}")
     plt.savefig(f".github/images/{benchmark_type}-benchmark.png")
 
-benchmark_time_for_x_json_requests()
+benchmark_time_for_x_requests()
