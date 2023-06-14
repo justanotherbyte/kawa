@@ -60,7 +60,7 @@ impl Request {
     }
 
     pub fn send(&self) -> PyResult<Response> {
-        let mut stream = TcpStream::connect(&self.url.address())?;
+        let mut stream = TcpStream::connect(self.url.address())?;
 
         let data = self.create_message();
         stream.write_all(&data)?;
