@@ -22,6 +22,20 @@ Kawa aims to be a small HTTP client with a fairly sized feature set, with good p
 As with all benchmarks, please take this with a grain of salt.
 All benchmarks are tested on a local server made with [`litestar`](https://litestar.dev/), which is run with [`uvicorn`](https://www.uvicorn.org/)
 
+The benchmarks are run on the following machine:
+```
+  Model Name:	MacBook Pro
+  Model Identifier:	MacBookPro11,3
+  Processor Name:	Quad-Core Intel Core i7
+  Processor Speed:	2.8 GHz
+  Number of Processors:	1
+  Total Number of Cores:	4
+  L2 Cache (per Core):	256 KB
+  L3 Cache:	6 MB
+  Hyper-Threading Technology:	Enabled
+  Memory:	16 GB
+```
+
 ### 10k Plaintext GET requests
 
 ![plaintext benchmark](.github/images/plaintext-benchmark.png)
