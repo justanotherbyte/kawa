@@ -55,7 +55,7 @@ impl Response {
 #[pymethods]
 impl Response {
     #[getter]
-    fn headers(&self) -> HashMap<String, String> {
+    fn get_headers(&self) -> HashMap<String, String> {
         self.headers.clone()
     }
     #[getter]
@@ -63,7 +63,7 @@ impl Response {
         self.status
     }
     #[getter]
-    fn body(&self) -> String {
+    fn get_body(&self) -> String {
         self.body.clone()
     }
 

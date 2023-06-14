@@ -6,7 +6,7 @@ pub struct Url {
     host: String,
     port: usize,
     scheme: String,
-    pub path: String
+    pub path: String,
 }
 
 impl Url {
@@ -25,9 +25,9 @@ impl Url {
         let components = url.split("://").collect::<Vec<&str>>();
         let scheme = components[0];
         let parts = components[1];
-        
+
         assert!(supported_schemes.contains(&scheme));
-        
+
         // now we are left with just the 127.0.0.1:8080/ section to deal with
         let host_port = parts.split(':').collect::<Vec<&str>>();
         let (host, port_part) = (host_port[0], host_port[1]);
@@ -67,7 +67,7 @@ impl Url {
             host: host.into(),
             port,
             scheme: scheme.into(),
-            path
+            path,
         };
         Ok(url)
     }

@@ -6,7 +6,7 @@ use std::{
 
 use pyo3::prelude::*;
 
-use crate::{response::Response, CRLF, VERSION, url::Url};
+use crate::{response::Response, url::Url, CRLF, VERSION};
 
 #[pyclass]
 pub struct Request {
