@@ -28,6 +28,6 @@ All benchmarks are tested on a local server made with [`litestar`](https://lites
 
 ### 10k JSON POST requests
 
-Using the `json` the serialize the data every request.
+Using the `json` library to serialize the data every request.
 
 ![json benchmark](.github/images/json-benchmark.png)
