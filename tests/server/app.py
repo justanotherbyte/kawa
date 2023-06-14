@@ -1,3 +1,5 @@
+from typing import Any
+
 from litestar import (
     Litestar,
     get,
@@ -10,7 +12,7 @@ async def hello() -> str:
     return "hello world"
 
 @post("/data")
-async def echo_data(data: dict[str, str]) -> dict:
+async def echo_data(data: dict) -> dict:
     return data
 
 @post("/create")
